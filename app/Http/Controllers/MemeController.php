@@ -50,11 +50,11 @@ class MemeController extends Controller
         auth()->user()->memes()->attach($meme);
 
         // random chance of 20 %
-        if(rand(1, 5) == 1){
+
             // get a random user who liked the meme too
             $user = $meme->users()->inRandomOrder()->first();
             return $user;
-        }
+
         return null;
     }
 }
