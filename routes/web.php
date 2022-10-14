@@ -36,5 +36,5 @@ Route::middleware([
 
 
     Route::get('/memes', [MemeController::class,'giveMemes'])->name('memes');
-    Route::post("/meme/{id}", [MemeController::class,'like'])->name('meme.like');
+    Route::post("/meme/{meme}", [MemeController::class,'like'])->name('meme.like');
 });
