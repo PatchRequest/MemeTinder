@@ -29,7 +29,12 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+
+    Route::get('/memes', [MemeController::class,'giveMemes'])->name('memes');
+    Route::post("/meme/{id}", [MemeController::class,'like'])->name('meme.like');
 });
