@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMemeRequest;
 use App\Http\Requests\UpdateMemeRequest;
 use App\Models\Meme;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MemeController extends Controller
 {
@@ -47,14 +49,9 @@ class MemeController extends Controller
 
     public function like(Meme $meme){
         // add meme to user's liked memes
-        auth()->user()->memes()->attach($meme);
+        Auth::user()->memes()->attach($meme);
 
-        // random chance of 20 %
-
-            // get a random user who liked the meme too
-            $user = $meme->users()->inRandomOrder()->first();
-            return $user;
-
-        return null;
+        $match = $meme->users()->whereNot('users.id', Auth::user()->id)->inRandomOrder()->first() ?? Auth::user();
+        return new JsonResponse($match, is_null($match) ? 204 : 200);
     }
 }
